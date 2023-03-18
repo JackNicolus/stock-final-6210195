@@ -1,5 +1,5 @@
 import {connect, model, models, Schema} from "mongoose"
-const connectionString = 'mongodb+srv://jnclxi:Jackjack88@jnclxi.o6zhxa0.mongodb.net/stock'
+const connectionString = 'mongodb+srv://jnclxi:Jackjack88@cluster0.l22ckos.mongodb.net/stock'
 
 export default async function handler(req, res) {
     await connect(connectionString);
@@ -20,7 +20,6 @@ export default async function handler(req, res) {
 }
 
 const productSchema = new Schema({
-    id: String,
     code: String,
     name: String,
     price: Number
