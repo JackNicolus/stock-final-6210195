@@ -21,10 +21,10 @@ export default async function handler(req, res) {
     }
 }
     const productSchema = new Schema({
-        id: String,
-        firstName: String,
-        lastName: String,
-        publisher: String
+        _id: String,
+        code: String,
+        name: String,
+        price: Number
     })
 
     const Product = models?.product || model('product', productSchema);
