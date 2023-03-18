@@ -1,5 +1,5 @@
 import {connect, model, models, Schema} from "mongoose"
-const connectionString = "mongodb+srv://jnclxi:Jackjack88@jnclxi.o6zhxa0.mongodb.net/stock"
+const connectionString = 'mongodb+srv://jnclxi:Jackjack88@jnclxi.o6zhxa0.mongodb.net/stock'
 
 export default async function handler(req, res) {
     await connect(connectionString);
