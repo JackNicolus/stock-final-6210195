@@ -7,10 +7,7 @@ import { useState } from 'react'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  const [suppliers, setSuppliers] = useState([
-    { id: 1, name: 'Supplier 1', phone: '1234567890', address: 'Address 1' },
-    { id: 2, name: 'Supplier 2', phone: '0987654321', address: 'Address 2' },
-  ])
+  const [suppliers, setSuppliers] = useState([    { id: 1, name: 'Supplier 1', phone: '1234567890', address: 'Address 1' },    { id: 2, name: 'Supplier 2', phone: '0987654321', address: 'Address 2' },  ])
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [address, setAddress] = useState('')
@@ -62,9 +59,7 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <div className={styles.description}>
-          <p>
-            Supplier Management App
-          </p>
+          <p>Supplier Management App</p>
         </div>
 
         <div className={styles.center}>
@@ -115,47 +110,39 @@ export default function Home() {
               ))}
             </tbody>
           </table>
-
-          <div>
-            <h2>Add</h2>
-            <form onSubmit={(e) => e.preventDefault()}>
-              <div>
-                <label htmlFor="name">Name:</label>
-                <input
-                  type="text"
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-              <div>
-                <label htmlFor="phone">Phone:</label>
-                <input
-                  type="tel"
-                  id="phone"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                />
-              </div>
-              <div>
-                <label htmlFor="address">Address:</label>
-                <textarea
-                  id="address"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                ></textarea>
-              </div>
-              <div>
-                <button onClick={addSupplier}>Add Supplier</button>
-              </div>
-            </form>
-          </div>
+          <div className={styles.form}>
+        <h2>Add a new supplier</h2>
+        <div className={styles.formGroup}>
+          <label htmlFor="name">Name:</label>
+          <input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
         </div>
-      </main>
-    </>
-  )
+        <div className={styles.formGroup}>
+          <label htmlFor="phone">Phone:</label>
+          <input
+            type="text"
+            id="phone"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label htmlFor="address">Address:</label>
+          <input
+            type="text"
+            id="address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+        </div>
+        <button onClick={addSupplier}>Add Supplier</button>
+      </div>
+    </div>
+  </main>
+</>
+)
 }
-
-
-
-
