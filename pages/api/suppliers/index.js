@@ -6,11 +6,11 @@ export default async function handler(req, res) {
     console.log("req.method", req.method)
 
     if (req.method === 'GET') {
-        const docs = await Product.find()
+        const docs = await Supplier.find()
         res.status(200).json(docs)
 
     } else if (req.method === 'POST') {
-        const doc = await Product.create(req.body)
+        const doc = await Supplier.create(req.body)
         res.status(201).json(doc)
 
     } else {
@@ -19,10 +19,10 @@ export default async function handler(req, res) {
     }
 }
 
-const productSchema = new Schema({
+const supplierSchema = new Schema({
     code: String,
     name: String,
     price: Number
 })
 
-const Product = models?.product || model('product', productSchema);
+const Supplier = models?.supplier || model('supplier', supplierSchema);

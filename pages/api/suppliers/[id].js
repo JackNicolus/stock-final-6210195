@@ -10,22 +10,22 @@ export default async function handler(req, res) {
 
     //Get only one document
     if (req.method === 'GET') {
-        const doc = await Product.findOne({ _id : id})
+        const doc = await Supplier.findOne({ _id : id})
         res.status(200).json(doc)
     } 
     
     else if (req.method === 'DELETE') {
-        const deletedDoc = await Product.deleteOne({ _id: id })
+        const deletedDoc = await Supplier.deleteOne({ _id: id })
         res.status(200).json(deletedDoc)
     } 
 
     else if (req.method === 'POST') {
-        const newDoc = await Product.create(req.body)
+        const newDoc = await Supplier.create(req.body)
         res.status(200).json(newDoc)
     }
 
     else if (req.method === 'PUT') {
-        const updatedDoc = await Product.updateOne({_id: id}, req.body)
+        const updatedDoc = await Supplier.updateOne({_id: id}, req.body)
         res.status(200).json(updatedDoc)
     }
     
@@ -35,13 +35,13 @@ export default async function handler(req, res) {
         res.status(405).end(`Method ${req.method} Not Allowed`)
     }
 }
-    const productSchema = new Schema({
+    const supplierSchema = new Schema({
         _id: String,
         code: String,
         name: String,
         price: Number
     })
 
-    const Product = models?.product || model('product', productSchema);
-    //if NextJS already uses mongoose and it is already defined, skip the new model creation (models?.Product) = check
-    //otherwise, create a new model (model('product', productSchema))
+    const Supplier = models?.supplier || model('supplier', supplierSchema);
+    //if NextJS already uses mongoose and it is already defined, skip the new model creation (models?.Supplier) = check
+    //otherwise, create a new model (model('supplier', supplierSchema))
