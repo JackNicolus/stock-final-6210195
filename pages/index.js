@@ -1,100 +1,161 @@
-const table = document.getElementById("suppliers").getElementsByTagName("tbody")[0];
-const addForm = document.getElementById("add-form");
-const updateForm = document.getElementById("update-form");
-const updateId = document.getElementById("update-id");
-const updateName = document.getElementById("update-name");
-const updatePhone = document.getElementById("update-phone");
-const updateAddress = document.getElementById("update-address");
-const cancelUpdate = document.getElementById("cancel-update");
+import Head from 'next/head'
+import Image from 'next/image'
+import { Inter } from 'next/font/google'
+import styles from '@/styles/Home.module.css'
+import { useState } from 'react'
 
-let suppliers = [
-  { id: 1, name: "Acme Inc.", phone: "555-1234", address: "123 Main St" },
-  { id: 2, name: "Widget Co.", phone: "555-5678", address: "456 Maple Ave" }
-];
+const inter = Inter({ subsets: ['latin'] })
 
-function renderTable() {
-  table.innerHTML = "";
-  suppliers.forEach(supplier => {
-    const row = table.insertRow();
-    row.innerHTML = `
-      <td>${supplier.name}</td>
-      <td>${supplier.phone}</td>
-      <td>${supplier.address}</td>
-      <td>
-        <button type="button" class="edit" data-id="${supplier.id}">Edit</button>
-        <button type="button" class="delete" data-id="${supplier.id}">Delete</button>
-      </td>
-    `;
-  });
-}
+export default function Home() {
+  const [suppliers, setSuppliers] = useState([
+    { id: 1, name: 'Supplier 1', phone: '1234567890', address: 'Address 1' },
+    { id: 2, name: 'Supplier 2', phone: '0987654321', address: 'Address 2' },
+  ])
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [address, setAddress] = useState('')
 
-function addSupplier(name, phone, address) {
-  const id = suppliers.length > 0 ? suppliers[suppliers.length - 1].id + 1 : 1;
-  suppliers.push({ id, name, phone, address });
-  renderTable();
-}
-
-function deleteSupplier(id) {
-  suppliers = suppliers.filter(supplier => supplier.id !== id);
-  renderTable();
-}
-
-function updateSupplier(id, name, phone, address) {
-  const supplier = suppliers.find(supplier => supplier.id === id);
-  if (supplier) {
-    supplier.name = name;
-    supplier.phone = phone;
-    supplier.address = address;
-    renderTable();
-  }
-}
-
-function cancelUpdateForm() {
-  updateForm.style.display = "none";
-  addForm.style.display = "block";
-}
-
-renderTable();
-
-addForm.addEventListener("submit", event => {
-  event.preventDefault();
-  const name = event.target.elements.name.value;
-  const phone = event.target.elements.phone.value;
-  const address = event.target.elements.address.value;
-  addSupplier(name, phone, address);
-  event.target.reset();
-});
-
-table.addEventListener("click", event => {
-  if (event.target.classList.contains("delete")) {
-    const id = parseInt(event.target.getAttribute("data-id"));
-    deleteSupplier(id);
-  } else if (event.target.classList.contains("edit")) {
-    const id = parseInt(event.target.getAttribute("data-id"));
-    const supplier = suppliers.find(supplier => supplier.id === id);
-    if (supplier) {
-      updateId.value = supplier.id;
-      updateName.value = supplier.name;
-      updatePhone.value = supplier.phone;
-      updateAddress.value = supplier.address;
-      updateForm.style.display = "block";
-      addForm.style.display = "none";
+  const addSupplier = () => {
+    const newSupplier = {
+      id: suppliers.length + 1,
+      name: name,
+      phone: phone,
+      address: address,
     }
+    setSuppliers([...suppliers, newSupplier])
+    setName('')
+    setPhone('')
+    setAddress('')
   }
-});
 
-updateForm.addEventListener("submit", event => {
-  event.preventDefault();
-  const id = parseInt(event.target.elements.id.value);
-  const name = event.target.elements.name.value;
-  const phone = event.target.elements.phone.value;
-  const address = event.target.elements.address.value;
-  updateSupplier(id, name, phone, address);
-  event.target.reset();
-  cancelUpdateForm();
-});
+  const deleteSupplier = (id) => {
+    const newSuppliers = suppliers.filter((supplier) => supplier.id !== id)
+    setSuppliers(newSuppliers)
+  }
 
-cancelUpdate.addEventListener("click", event => {
-  event.preventDefault();
-  cancelUpdateForm();
-});
+  const updateSupplier = (id) => {
+    const updatedSuppliers = suppliers.map((supplier) => {
+      if (supplier.id === id) {
+        return {
+          ...supplier,
+          name: name || supplier.name,
+          phone: phone || supplier.phone,
+          address: address || supplier.address,
+        }
+      } else {
+        return supplier
+      }
+    })
+    setSuppliers(updatedSuppliers)
+    setName('')
+    setPhone('')
+    setAddress('')
+  }
+
+  return (
+    <>
+      <Head>
+        <title>Supplier Management App</title>
+        <meta name="description" content="Supplier Management App" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <main className={styles.main}>
+        <div className={styles.description}>
+          <p>
+            Supplier Management App
+          </p>
+        </div>
+
+        <div className={styles.center}>
+          <Image
+            className={styles.logo}
+            src="/next.svg"
+            alt="Next.js Logo"
+            width={180}
+            height={37}
+            priority
+          />
+          <div className={styles.thirteen}>
+            <Image
+              src="/thirteen.svg"
+              alt="13"
+              width={40}
+              height={31}
+              priority
+            />
+          </div>
+        </div>
+
+        <div className={styles.grid}>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {suppliers.map((supplier) => (
+                <tr key={supplier.id}>
+                  <td>{supplier.name}</td>
+                  <td>{supplier.phone}</td>
+                  <td>{supplier.address}</td>
+                  <td>
+                    <button onClick={() => deleteSupplier(supplier.id)}>
+                      Delete
+                    </button>
+                    <button onClick={() => updateSupplier(supplier.id)}>
+                      Update
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <div>
+            <h2>Add</h2>
+            <form onSubmit={(e) => e.preventDefault()}>
+              <div>
+                <label htmlFor="name">Name:</label>
+                <input
+                  type="text"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="phone">Phone:</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="address">Address:</label>
+                <textarea
+                  id="address"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                ></textarea>
+              </div>
+              <div>
+                <button onClick={addSupplier}>Add Supplier</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </>
+  )
+}
+
+
+
+
