@@ -36,7 +36,7 @@ export default async function handler(req, res) {
     }
 }
     const productSchema = new Schema({
-        _id: String,
+        id: String,
         code: String,
         name: String,
         price: Number
